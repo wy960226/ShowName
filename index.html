@@ -1,0 +1,156 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="./css/layui.css" media="all">
+    <title>江船零排- App使用说明</title>
+    <style>
+        body {
+            padding: 8px;
+        }
+
+        .wgt-feeds {
+            margin-bottom: 40px;
+            margin-top: 30px;
+            border-bottom: 1px solid #d6d6d8;
+        }
+
+        .clearfix {
+            zoom: 1;
+        }
+
+        .exp-title h1 {
+            font-size: 30px;
+            color: #333;
+            font-weight: 400;
+        }
+
+        .image-item {
+            margin: 20px auto;
+            width: 75%;
+        }
+
+        .layui-timeline-axis {
+            border: 1px solid #5FB878;
+        }
+    </style>
+    <script>
+        function createLi(index, element) {
+            var h3 = document.createElement('h3')
+            h3.className = "layui-timeline-title"
+            h3.innerText = element.title
+            var div = document.createElement('div')
+            div.className = "layui-timeline-content layui-text"
+            div.appendChild(h3);
+            element.imgsrc.forEach(p => {
+                var img = document.createElement('img')
+                img.className = "image-item"
+                img.src = "./img/" + p
+                div.appendChild(img);
+            });
+            var i = document.createElement('i')
+            i.className = "layui-icon layui-timeline-axis"
+            i.innerText = index
+            var li = document.createElement('li')
+            li.className = "layui-timeline-item"
+            li.append(i)
+            li.append(div)
+            return li
+        }
+        function createLiEnd(index, str) {
+            var h3 = document.createElement('h3')
+            h3.className = "layui-timeline-title"
+            h3.innerText = str
+            var div = document.createElement('div')
+            div.className = "layui-timeline-content layui-text"
+            div.appendChild(h3);
+            var i = document.createElement('i')
+            i.className = "layui-icon layui-timeline-axis"
+            i.innerText = index
+            var li = document.createElement('li')
+            li.className = "layui-timeline-item"
+            li.append(i)
+            li.append(div)
+            return li
+        }
+    </script>
+</head>
+
+
+<body style="">
+    <div>
+        <div class="wgt-feeds">
+            <div class="exp-title clearfix">
+                <h1 class="exp-title-h1">江船零排-App使用说明</h1>
+            </div>
+        </div>
+        <ul class="layui-timeline" id="itemshow">
+
+        </ul>
+        <script type="text/javascript">
+            var data = [{
+                title: "登录注册",
+                imgsrc: ["1.png"]
+            },
+            {
+                title: "登录",
+                imgsrc: ["2.png"]
+            }, {
+                title: "注册",
+                imgsrc: ["3.png"]
+            }
+                , {
+                title: "选择排放类型",
+                imgsrc: ["4.png"]
+            }
+                , {
+                title: "选择操作",
+                imgsrc: ["5.png",
+                ]
+            }
+                , {
+                title: "初始铅封流程",
+                imgsrc: ["6.png",
+                    "7.png",
+                    "8.png",
+                    "9.png"]
+            }
+                , {
+                title: "铅封更换流程",
+                imgsrc: ["10.png",
+                    "11.png",
+                    "12.png",
+                    "13.png",
+                    "14.png"
+                ]
+            }
+                , {
+                title: "日常检查需要铅封流程",
+                imgsrc: ["15.png",
+                    "16.png",
+                    "17.png",
+                    "18.png"
+                ]
+            }
+                , {
+                title: "日常检查不铅封流程",
+                imgsrc: ["19.png",
+                    "16.png",
+                    "20.png",
+                ]
+            }
+            ]
+            for (let index = 0; index < data.length; index++) {
+                document.getElementById("itemshow").append(createLi(index + 1, data[index]))
+            }
+            document.getElementById("itemshow").append(createLiEnd(data.length + 1, "结束"))
+        </script>
+    </div>
+
+</body>
+
+
+</html>
