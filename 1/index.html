@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>THREE.js Zigzag Swirl</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="static/css/style.css">
+
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+
+<script type="vert">
+  
+  uniform float time;
+  uniform vec2 resolution;
+
+  void main() {
+    // gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
+    gl_Position = vec4(position, 1.0);
+  }
+  
+</script>
+<script type="frag">
+
+  uniform float time;
+  uniform float swirlIntensity;
+  uniform vec2 resolution;
+
+  // cosine based palette, 4 vec3 params, by IQ
+  // https://iquilezles.org/www/articles/palettes/palettes.htm
+  vec3 palette(in float t, in vec3 a, in vec3 b, in vec3 c, in vec3 d )
+  {
+    return a + b*cos( 6.28318*(c*t+d) );
+  }
+
+  // also by IQ
+  vec3 twilight(in float t) {
+    vec3 a = vec3(0.5, 0.5, 0.5);
+    vec3 b = vec3(0.5, 0.5, 0.5);
+    vec3 c = vec3(2.0, 1.0, 0.0);
+    vec3 d = vec3(0.50, 0.20, 0.25);
+    return palette(t, a, b, c, d);
+  }
+
+  float sincos(in vec2 p) {
+    return sin(p.x) * cos(p.y);
+  }
+
+  vec3 makeSwirl(in vec2 p0) {
+    float a = atan(p0.y, p0.x);
+    float len = length(p0);
+    float l = log(len) - time * .4;
+    float zigzag = sin(time * .5 + a * 10. + l * 20.);
+    float swirl = sin(-time * .5 + a * 4. + l * 10. + zigzag);
+    float bg = .5 + .5 * sincos(p0 - l * 2.);
+    float blur = .2 + max(0., .5 - len);
+    return twilight(time * .1 + l * .2) * vec3(bg) * .5 + .5 * smoothstep(0., blur, swirl) * .01 * swirlIntensity;
+  }
+
+  void main() {
+    vec2 p = 2. * gl_FragCoord.xy / resolution - 1.;
+    float aspect = resolution.x / resolution.y;
+    p.x *= aspect;
+    vec3 color = makeSwirl(p);
+    gl_FragColor = vec4(color, 1.);
+  }
+</script>
+
+<script src='static/js/three.min.js'></script>
+<script src='static/js/gsap.min.js'></script>
+<script src='https://codepen.io/terabaud/pen/QWMNodR.js'></script>
+<script src='static/js/dat.gui.min.js'></script>
+<script src="static/js/script.js"></script>
+
+</body>
+</html>
